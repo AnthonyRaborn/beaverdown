@@ -1,14 +1,14 @@
-# beaverdown
+# gatordown
 
 This project is a modified version Chester Ismay's [thesisdown][4] package to 
-provide support for Oregon State University's thesis.
+provide support for University of Florida's thesis.
 
 Currently, the PDF version is fully functional. All other versions are derived from thesisdown and are not guaranteed to work.
 
 
 ## Installation
 
-To install and use `beaverdown` and use it for your dissertation/thesis, you will need:
+To install and use `gatordown` and use it for your dissertation/thesis, you will need:
 
  - [pandoc][0]
  - [LaTeX][1]
@@ -20,11 +20,11 @@ Open Rstudio and type:
 
 ```r
 if (!require("devtools")) install.packages("devtools", repos = "http://cran.rstudio.org")
-devtools::install_github("zkamvar/beaverdown")
+devtools::install_github("AnthonyRaborn/gatordown")
 ```
 
-To use it, open Rstudio, click on **File > New File > Rmarkdown ...** and then
-select the **Oregon State University Thesis** from the **Templates**.
+To use it, open Rstudio, click on **File > New File > Rmarkdown > From Template ** and then
+select the **UF-Dissertation** template.
 
 ![New R Markdown](thesis_rmd.png)
 
@@ -36,11 +36,13 @@ edit the first Rmd file to be the name of your project:
 book_filename: "thesis"
 chapter_name: "Chapter "
 -rmd_files: ["index.Rmd",
-+rmd_files: ["myThesis.Rmd",
++rmd_files: ["myThesis.Rmd", #edit the name of this file
   "chapters/01-chap1.Rmd",
   "chapters/02-chap2.Rmd",
   "chapters/03-chap3.Rmd",
-  "chapters/04-conclusion.Rmd",
+  "chapters/04-chap4.Rmd",
+  "chapters/05-chap5.Rmd",
+  "chapters/06-appendix.Rmd",
   "chapters/99-references.Rmd"
   ]
 ```
@@ -84,4 +86,4 @@ Note that this will currently only **Knit** if you name the directory `index` as
  [2]: https://r-project.org
  [3]: https://rstudio.org
  [4]: https://github.com/ismayc/thesisdown
- [5]: https://github.com/zkamvar/beaverdown/tree/master/inst/rmarkdown/templates/oregonstate/skeleton#readme
+ [5]: https://github.com/AnthonyRaborn/gatordown/tree/master/inst/rmarkdown/templates/thesis/skeleton#readme
