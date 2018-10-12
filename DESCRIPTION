@@ -1,0 +1,20 @@
+Package: gatordown
+Type: Package
+Title: Rmarkdown to LaTeX Using the University of Florida's LaTeX Template
+Version: 0.1.0
+Author: Anthony Raborn
+Maintainer: Anthony Raborn <anthony.w.raborn@gmail.com>
+Description: A fork of the thesisdown R package <github.com/ismayc/thesisdown>
+    and the beaverdown R package <github.com/zkamvar/beaverdown> which applies
+    the University of Florida LaTeX template.
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.3.0),
+    devtools,
+    dplyr,
+    ggplot2,
+    bookdown,
+    knitr
+Imports: yaml
+RoxygenNote: 6.1.0

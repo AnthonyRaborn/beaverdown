@@ -1,0 +1,4 @@
+name:  UF-Dissertation
+description: >
+  Template for creating a Thesis/Dissertation at UF using R Markdown based on the UF LaTeX template and the R bookdown package.
+
