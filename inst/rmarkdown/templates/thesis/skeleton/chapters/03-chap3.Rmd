@@ -1,137 +1,42 @@
-```{r include_packages_2, include = FALSE}
-# This chunk ensures that the thesisdown package is
-# installed and loaded. This thesisdown package includes
-# the template files for the thesis and also two functions
-# used for labeling and referencing
-if(!require(devtools))
-  install.packages("devtools", repos = "http://cran.rstudio.com")
-if(!require(dplyr))
-    install.packages("dplyr", repos = "http://cran.rstudio.com")
-if(!require(ggplot2))
-    install.packages("ggplot2", repos = "http://cran.rstudio.com")
-if(!require(ggplot2))
-    install.packages("bookdown", repos = "http://cran.rstudio.com")
-if(!require(thesisdown)){
-  library(devtools)
-  devtools::install_github("ismayc/thesisdown")
-  }
-library(thesisdown)
-flights <- read.csv("data/flights.csv")
-```
+# METHODS 
 
+Two factors varied in the simulation study were sample size and measurement model. The two measurement models included were the binary Rasch model (Equation 2-1) and the 2PL model (Equation 2-2). For the Rasch model conditions, sample size was varied as n = 50, 100, and 250 to mimic measurement applications ranging from minimum sample size required for data calibration to a relatively typical sample for data calibration under that model. For the 2PL conditions, n = 100, 250, and 500 were included for similar purposes.  
 
-# Tables, Graphics, References, and Labels {#ref-labels}
+## Rasch Model 
+### Data Generation 
+Item responses were simulated for a thirty item dichotomously scored test using Rasch models in R version 3.2.3 (R Core Team, 2015) and following Linacre’s (2007) guidelines for simulating Rasch data. Thirty items were created for each iteration with an item difficulty ranging from -2.9 to 2.9 logits, separated by 0.2 logits. No two items within an iteration had the same difficulty and each item was assumed to measure the same construct (i.e., the test data was unidimensional). Three sample sizes of examinees were simulated (i.e., n = 50, 100, and 250) from $\theta \sim N(0,1)$, with the smallest sample size chosen according to Linacre (1994) and the larger sample sizes chosen to mimic the typical sample sizes used in studies piloting Rasch-modelled instruments (e.g., Chen et al., 2014). Then, a 0/1 outcome variable $y$ was developed as an external criterion that is, in this study, perfectly correlated with true $\theta$ such that (equation 3-1). Then the response vector on all 30 items for all n was generated according to the following steps: 
 
-## Tables
+1.	Generate a random number $U_{ij} \sim Unif(0,1)$ for person i = 1 on item j = 1 with 
+difficulty $d_j$. 
+2.	Generate the probability of failure 0 by $P(0)=\frac{1}{1+\exp{\theta_i-d_j}}$. 
+3.	If $U_{i1} > P(0)$, then response outcome $x_{ij}=1$, else $x_{ij} = 0$.
+4.	Repeat steps 1 through 3 for person i on the remaining items, creating a vector of responses. 
+5.	Repeat for remaining persons, creating the response matrix X with items, $\theta_i$, and $y_i$ as the columns and persons as the rows. 
+ 
+The predictions were made by matching the sum score of each out-sample observation to a sum score of the in-sample data for each iteration of the methods. These predictions were then compared to the true classification for each observation and the error recorded. The model testing/selection method that produces the lowest overall misclassification rate was considered the best model for classifying under the current circumstances. Each of the model selection procedures split the data into insample and out-sample groups as described previously.
+ 
+### Form Selection 
+The sample item difficulties were estimated for each condition with the `eRm` package’s RM function in R (Mair, Hatzinger, & Maier, 2015) with each of the model selection methods. For each of the methods, the parameters estimated on the insample training data (e.g. the N – 1 points in LOOCV) were used to estimate the insample testing person latent abilities. These estimates produced a conversion table of summated scores to latent ability scores, which were then used to estimate the simulated external criterion variable $y$. 
 
-In addition to the tables that can be automatically generated from a data frame in **R** that you saw in [R Markdown Basics] using the `kable` function, you can also create tables using _pandoc_. (More information is available at <http://pandoc.org/README.html#tables>.)  This might be useful if you don't have values specifically stored in **R**, but you'd like to display them in table form.  Below is an example.  Pay careful attention to the alignment in the table and hyphens to create the rows and columns.
+For the first set of models, 10 short form items were selected so that 3 models could be compared: the first with items 1 through 10 (easy items), the second with items 11 through 20 (moderate items), and the last with items 21 through 30 (hard items). The expectation was that, since $y = 1$ for positive thetas and 0 otherwise, the model selection procedures should all select the moderate items subtest (i.e., the subtest that most accurately classified persons according to the external criterion). In addition, each procedure was performed on the full 30-item test and for each test the resubstitution error was calculated. Counting variations on certain procedures, there were a total of 13 model selection procedures used on the simulated data: the leave-one-out crossvalidation procedure, the k-fold cross-validation procedure with k = 5, 10, 15, and 20, the repeated leave-one-out bootstrap with B=5, 10, 15, and 20, the $e_0$ bootstrap, the .632 bootstrap, and the repeated bootstrap k-fold cv with B=5 and k=10. In addition, the resubstitution error, used in the .632 bootstrap, was presented as its own method and true out-sample error for each condition was estimated by using the parameter estimates from the entire in-sample dataset to classify 500 newly-generated persons and response patterns. These procedures were chosen for two reasons. First, the choices are consistent with those seen in the literature on cross-validation methodology (see Chapter 2). Second, the choices are all applicable to short form selection procedures that involve multiple test forms and an external criterion. All fourteen conditions were reiterated for a total of 100 repetitions, with any repetition that failed to converge to a solution for the full in-sample data being restarted. 
 
-----------------------------------------------------------------------------------
-  Factors                    Correlation between Parents & Child      Inherited
-------------------------- ----------------------------------------- --------------
-  Education                                -0.49                         Yes
-  
-  Socio-Economic Status                     0.28                        Slight   
-  
-  Income                                    0.08                          No
-  
-  Family Size                               0.18                        Slight
-  
-  Occupational Prestige                     0.21                        Slight
-------------------------- ----------------------------------------- --------------
-Table: (\#tab:inher) Correlation of Inheritance Factors for Parents and Child 
+## 2PL Model 
+### Data Generation 
+The second part of the study simulated responses to a thirty item dichotomously scored test using a 2PL model in R. Procedures similar to the Rasch model data generation were used, with the following differences: a) the 30 items, while maintaining the difficulties, had a randomly-generated discrimination parameter generated from $a_j \sim Unif(0.5,1.5)$ used across each iteration (see Table 3-1 for these parameters) and b) different sample sizes were used (i.e., n = 100, 200, and 500) due to the increased sample size requirements of the 2PL model compared to the Rasch model. While a sample size of 500 has been suggested as an ideal minimum for 2PL models by Reeve and Fayers (2005), smaller sample sizes can still provide useful information in some circumstances (e.g., pilot studies) and were thus included in the simulation (Cappelleri et al., 2014). Then a response vector on each of the 30 items for all n was generated by the following steps:
 
-We can also create a link to the table by doing the following: Table \@ref(tab:inher).  If you go back to [Loading and exploring data] and look at the `kable` table, we can create a reference to this max delays table too: Table \@ref(tab:maxdelays). The addition of the `\label{tab:inher}` option to the end of the table caption allows us to then a make a reference to Table `\@ref(tab:label)`. Note that this reference could appear anywhere throughout the document after the table has appeared.  
+1.	Calculate the probability of a correct response on each item using the 2PL logit formula for each observation j on each item i, using the true item parameters generated previously. 
+2.	Generate the response vector for each person by performing a Bernoulli trial with probability $P(Y_{ij} = Correct|\theta_j)$ for each item i. 
+ 
+The R package `ltm` was used throughout the remainder of the simulation to estimate the 2PL item parameters by using the in-sample response vectors from the model selection procedures (Rizopoulos, 2006). These parameters were then used to estimate the out-sample response vector thetas by using the single observation maximum likelihood estimation procedure found in chapter 5 of Baker (2001) such that 
+(equation 3-2 here) 
+where $\hat{\theta}_s$ is the *s*th’s iteration theta estimate, $a_i$ is the discrimination of item *i*, N is the 
+total number of items, $\mu_i$ is the observed response to item *i*, and $P_i(\hat{\theta}_s = 1 - Q_i(\hat{\theta}_s$ is the probability of correct response under the given item parameters at ability $\hat{\theta}_s$. The stopping parameters for this procedure were 1) $|\hat{\theta}_{s+1} - \hat{\theta}_s| < .001$ 2) $|\hat{theta}_s| < 10$ and 3) 
+$s < 100$ with the initial value of $\hat{\theta}_s$ set to 1. 
 
-<!-- We will next explore ways to create this label-ref link using figures. -->
+### Form Selection 
 
-\clearpage
+The subtests were created in the same manner as was done for the Rasch tests, with each set of ten items being used to create the short forms. Based on the results of the Rasch test conditions, the following four of the previous thirteen procedures were excluded from this simulation: the 15-Fold CV, the 15 Repeated Bootstrap, the $e_0$ Bootstrap, and the .632 Bootstrap. Again, the true out-sample error is estimated by taking the parameters estimated with the full in-sample dataset and classifying 500 newly-generated persons and response patterns. 
 
-<!-- clearpage ends the page, and also dumps out all floats.
-  Floats are things like tables and figures. -->
+## Evaluation of Results 
 
-
-## Figures
-
-If your thesis has a lot of figures, _R Markdown_ might behave better for you than that other word processor.  One perk is that it will automatically number the figures accordingly in each chapter.    You'll also be able to create a label for each figure, add a caption, and then reference the figure in a way similar to what we saw with tables earlier.  If you label your figures, you can move the figures around and _R Markdown_ will automatically adjust the numbering for you.  No need for you to remember!  So that you don't have to get too far into LaTeX to do this, a couple **R** functions have been created for you to assist.  You'll see their use below.
-
-<!--
-One thing that may be annoying is the way _R Markdown_ handles "floats" like tables and figures (it's really \LaTeX's fault). \LaTeX\ will try to find the best place to put your object based on the text around it and until you're really, truly done writing you should just leave it where it lies. There are some optional arguments specified in the options parameter of the `label` function.  If you need to shift your figure around, it might be good to look here on tweaking the options argument:  <https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions>
-
-If you need a graphic or tabular material to be part of the text, you can just put it inline. If you need it to appear in the list of figures or tables, it should be placed in a code chunk.
--->
-
-
-In the **R** chunk below, we will load in a picture stored as `reed.jpg` in our main directory.  We then give it the caption of "Reed logo", the label of "reedlogo", and specify that this is a figure.  Make note of the different **R** chunk options that are given in the R Markdown file (not shown in the knitted document).
-
-```{r reedlogo, fig.cap="Frogs are weird...", out.width = "9cm", eval = F}
-# not evaluated
-include_graphics(path = "figure/frog.jpg")
-```
-
-Here is a reference to the Reed logo: Figure \@ref(fig:reedlogo).  Note the use of the `fig:` code here.  By naming the **R** chunk that contains the figure, we can then reference that figure later as done in the first sentence here.  We can also specify the caption for the figure via the R chunk option `fig.cap`.
-
-\clearpage 
-
-<!-- starts a new page and stops trying to place floats such as tables and figures -->
-
-Below we will investigate how to save the output of an **R** plot and label it in a way similar to that done above.  Recall the `flights` dataset from Chapter \@ref(rmd-basics).  (Note that we've shown a different way to reference a section or chapter here.)  We will next explore a bar graph with the mean flight departure delays by airline from Portland for 2014.  Note also the use of the `scale` parameter which is discussed on the next page.
-
-```{r delaysboxplot, warnings=FALSE, messages=FALSE, fig.cap="Mean Delays by Airline", fig.width=6}
-flights %>% group_by(carrier) %>%
-  summarize(mean_dep_delay = mean(dep_delay)) %>%
-  ggplot(aes(x = carrier, y = mean_dep_delay)) +
-  geom_bar(position = "identity", stat = "identity", fill = "red")
-```
-
-Here is a reference to this image: Figure \@ref(fig:delaysboxplot).
-
-A table linking these carrier codes to airline names is available at <https://github.com/ismayc/pnwflights14/blob/master/data/airlines.csv>.
-
-\clearpage
-
-Next, we will explore the use of the `out.extra` chunk option, which can be used to shrink or expand an image loaded from a file by specifying `"scale= "`. Here we use the mathematical graph stored in the "subdivision.pdf" file.
-
-```{r subd, results="asis", echo=FALSE, fig.cap="Subdiv. graph", out.extra="scale=0.75", eval = F}
-include_graphics("figure/subdivision.pdf")
-```
-
-Here is a reference to this image: Figure \@ref(fig:subd).  Note that `echo=FALSE` is specified so that the **R** code is hidden in the document.
-
-**More Figure Stuff**
-
-Lastly, we will explore how to rotate and enlarge figures using the `out.extra` chunk option.  (Currently this only works in the PDF version of the book.)
-
-```{r subd2, results="asis", echo=FALSE, out.extra="angle=180, scale=1.1", fig.cap="A Larger Figure, Flipped Upside Down", eval = F}
-include_graphics("figure/subdivision.pdf")
-```
-
-As another example, here is a reference: Figure \@ref(fig:subd2).  
-
-## Footnotes and Endnotes
-
-You might want to footnote something. ^[footnote text] The footnote will be in a smaller font and placed appropriately. Endnotes work in much the same way. More information can be found about both on the CUS site or feel free to reach out to <data@reed.edu>.
-
-## Bibliographies
-
-Of course you will need to cite things, and you will probably accumulate an armful of sources. There are a variety of tools available for creating a bibliography database (stored with the .bib extension).  In addition to BibTeX suggested below, you may want to consider using the free and easy-to-use tool called Zotero.  The Reed librarians have created Zotero documentation at <http://libguides.reed.edu/citation/zotero>.  In addition, a tutorial is available from Middlebury College at <http://sites.middlebury.edu/zoteromiddlebury/>.
-
-_R Markdown_ uses _pandoc_ (<http://pandoc.org/>) to build its bibliographies.  One nice caveat of this is that you won't have to do a second compile to load in references as standard LaTeX requires. To cite references in your thesis (after creating your bibliography database), place the reference name inside square brackets and precede it by the "at" symbol.  For example, here's a reference to a book about worrying:  [@Molina1994].  This `Molina1994` entry appears in a file called `thesis.bib` in the `bib` folder.  This bibliography database file was created by a program called BibTeX.  You can call this file something else if you like (look at the YAML header in the main .Rmd file) and, by default, is to placed in the `bib` folder.  
-
-For more information about BibTeX and bibliographies, see our CUS site (<http://web.reed.edu/cis/help/latex/index.html>)^[@reedweb2007]. There are three pages on this topic:  _bibtex_ (which talks about using BibTeX, at <http://web.reed.edu/cis/help/latex/bibtex.html>), _bibtexstyles_ (about how to find and use the bibliography style that best suits your needs, at <http://web.reed.edu/cis/help/latex/bibtexstyles.html>) and _bibman_ (which covers how to make and maintain a bibliography by hand, without BibTeX, at <http://web.reed.edu/cis/help/latex/bibman.html>). The last page will not be useful unless you have only a few sources.
-
-If you look at the YAML header at the top of the main .Rmd file you can see that we can specify the style of the bibliography by referencing the appropriate csl file.  You can download a variety of different style files at <https://www.zotero.org/styles>.  Make sure to download the file into the csl folder.
-
-**Tips for Bibliographies**
-
-- Like with thesis formatting, the sooner you start compiling your bibliography for something as large as thesis, the better. Typing in source after source is mind-numbing enough; do you really want to do it for hours on end in late April? Think of it as procrastination.
-- The cite key (a citation's label) needs to be unique from the other entries.
-- When you have more than one author or editor, you need to separate each author's name by the word "and" e.g. `Author = {Noble, Sam and Youngberg, Jessica},`.
-- Bibliographies made using BibTeX (whether manually or using a manager) accept LaTeX markup, so you can italicize and add symbols as necessary.
-- To force capitalization in an article title or where all lowercase is generally used, bracket the capital letter in curly braces.
-- You can add a Reed Thesis citation^[@noble2002] option. The best way to do this is to use the phdthesis type of citation, and use the optional "type" field to enter "Reed thesis" or "Undergraduate thesis." 
-
-## Anything else?
-
-If you'd like to see examples of other things in this template, please contact the Data @ Reed team (email <data@reed.edu>) with your suggestions. We love to see people using _R Markdown_ for their theses, and are happy to help.
-
+The same evaluation methodology was used across the two test models. The mean error rates were calculated for each condition across the 100 iterations. Each of the procedures has its own error estimation, each of which was specified in Chapter 2 (see Equations 2-4, 2-5, 2-7, 2-8, 2-9, and 2-10). Then, the bias was estimated by subtracting the mean out-sample error, estimated from the 500 from the other model mean estimates and summing the resulting values. This is performed within each sample size in order to see how sample size affects the bias, and then again across all sample sizes to find an overall bias. Two sets of graphs were also produced. The first set showed the distribution of the change in error estimation across each condition for each method and the second showed how the distribution of the error changed across each method for each condition. 

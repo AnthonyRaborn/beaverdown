@@ -1,0 +1,58 @@
+`r if(knitr:::is_latex_output()) '\\appendix'`
+
+`r if(!knitr:::is_latex_output()) '# (APPENDIX) Appendix {-}'`
+
+<!--
+  If you feel it necessary to include an appendix, it goes here. Also include the name of the appendix file in the _bookdown.yml file to ensure it gets included in your text. (This sample appendix is included by default)
+-->
+<!--
+  For a single appendix, include the following LaTeX code (minus the comments after %; otherwise, they get printed into the final PDF and look funny!):
+  \appendix %
+  \chapter*{APPENDIX \\ THIS IS THE FIRST APPENDIX} %puts the chapter title at the beginning of the
+  % appendix without changing the chapter number; change title as appropriate
+  \addcontentsline{toc}{chapter}{APPENDIX: THIS IS THE FIRST APPENDIX} %puts the appendix title
+  % in the TOC correctly
+  \chaptermark{Appendix}
+  \markboth{Appendix}{Appendix}
+  \setcounter{chapter}{1}
+-->
+<!--
+  For two or more appendices, include the following LaTeX code:
+  \appendix %
+  \addtocontents{toc}{\protect\addvspace{10pt}\noindent{APPENDIX} \protect\hfill\par}{}
+-->
+  \appendix %
+  \chapter*{APPENDIX \\ THIS IS THE FIRST APPENDIX}
+  \addcontentsline{toc}{chapter}{APPENDIX: THIS IS THE FIRST APPENDIX} 
+  \chaptermark{Appendix}
+  \markboth{Appendix}{Appendix}
+  \setcounter{chapter}{1}
+  
+The sample thesis did not have an appendix, so this is just an example for how you could add one (or more) appendices.
+  
+Appendices are technically included in the *body* of the document as a chapter that follows Chapter 5. However, they do not advance the chapter count. Also, the typical markdown main heading (# followed by the chapter title) doesn't work; edit the \LaTeX code above to change the title of the appendices appropriately. See below:
+# Not A Real Title
+  
+## This is a subheader
+  
+  You can include subheadings to break up each appendix still.
+  
+## Example code
+### Simulating Data
+
+You can include R code in the appendices like a normal Rmarkdown document. Unless you need to run the R code for some reason, it would probably be best to include the `eval=F` option as shown below.
+
+```{r simulate normal data, eval=F}
+fakeData <- rnorm(n = 1000, mean = 100, sd = 15)
+```
+
+### Include Code Chunks as Chunks
+
+The above example code did not print the chunk commands with it. That is, when you look at the code chunk in the .Rmd file, you see the chunk name and options surrounded by backticks, but when the document is knitted into the PDF, these disappear. You can include them like so:
+
+````
+```{r simulate normal data, eval=F}`r ''` 
+fakeData <- rnorm(n = 1000, mean = 100, sd = 15)
+```
+````
+Looks funny in Rmarkdown, but results in the verbatim code chunk in the document. The difference is that the code chunk is wrapped in *four* backticks, **and** the empty in-line R expression added after the chunk header. These are necessary together.

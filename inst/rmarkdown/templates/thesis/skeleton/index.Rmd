@@ -1,0 +1,73 @@
+---
+# UF thesis/dissertation fields
+title: 'INVESTIGATING RASCH AND 2PL SHORT-FORM MODEL SELECTION BY MINIMIZING OUT-SAMPLE CLASSIFICATION ERROR' # ALL CAPS
+author: 'Anthony Raborn'
+degree: 'Master of Arts in Education'
+doctype: 'Thesis' # either 'Dissertation' or 'Thesis'
+date: '`r format(Sys.Date(), "%B %d, %Y")`'# Prints today's date
+commencementyear: '2016'
+commencementmonth: 'May'
+department: 'Research and Evaluation Methodology'
+chair: 'Corinne Manley'
+cochair: 'Walter Leite'
+dedication: |
+  `r if(knitr:::is_latex_output()) paste(readLines("pre/00-dedication.Rmd"), collapse = '\n  ')`
+acknowledgements: |
+  `r if(knitr:::is_latex_output()) paste(readLines("pre/00-acknowledgements.Rmd"), collapse = '\n  ')`
+abstract: |
+  `r if(knitr:::is_latex_output()) paste(readLines("pre/00-abstract.Rmd"), collapse = '\n  ')`
+# abbreviations: "pre/00-abbreviations.Rmd" # OPTIONAL; it's preferred to write out abbreviations the first time you use them
+bio: |
+  `r if(knitr:::is_latex_output()) paste(readLines("post/31-bio.Rmd"), collapse = '\n  ')`
+# End of UF thesis fields
+knit: "bookdown::render_book"
+output:
+  gatordown::thesis_pdf
+bibliography: bib/citations.bib
+# Download your specific bibliography database file and refer to it in the line above.
+csl: csl/apa.csl
+# Download your specific csl file and refer to it in the line above.
+---
+
+
+<!--
+Above is the YAML (YAML Ain't Markup Language) header that includes a lot of metadata used to produce the document.  Be careful with spacing in this header!
+
+If you'd like to include a comment that won't be produced in your resulting file enclose it in a block like this.
+-->
+
+<!--
+If you receive a duplicate label error after knitting, make sure to delete the index.Rmd file and then knit again.
+-->
+
+```{r include_packages, include = FALSE}
+# This chunk ensures that the gatordown package is
+# installed and loaded. This package includes
+# the template files for the thesis in a UF-approved
+# format.
+if(!require(devtools))
+  install.packages("devtools", repos = "http://cran.rstudio.com")
+if(!require(gatordown))
+  devtools::install_github("AnthonyRaborn/gatordown")
+library(gatordown)
+```
+
+<!-- 
+You'll need to include the order that you'd like Rmd files to appear in the
+_bookdown.yml file for PDF files and also delete the # before rmd_files: there.
+These are considered the BODY of the thesis.
+-->
+
+<!--
+For citations from the .bib file, you'll want to include the LaTeX commands to cite.
+
+For IN-TEXT citations, use \citet{key}. For example, if the key for "Jones et al., 1990" 
+was jones1990, then \citet{jones1990} would output "Jones et al. (1990)" in the final pdf.
+
+For PARENTHETICAL citations, ,use \citep{key}. With the same example key, typing 
+\citep{jones1990} would output "(Jones et al., 2000)".
+
+You can use a comma "," to include multiple citations.
+
+Obviously, the end result will be dependent on your .csl file you included!
+-->

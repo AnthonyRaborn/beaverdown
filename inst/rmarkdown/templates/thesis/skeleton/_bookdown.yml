@@ -6,8 +6,8 @@ rmd_files: ["index.Rmd",
   "chapters/03-chap3.Rmd",
   "chapters/04-chap4.Rmd",
   "chapters/05-chap5.Rmd",
-  "chapters/06-appendix.Rmd",
-  "chapters/99-references.Rmd"]
+  "post/21-appendices.Rmd",
+  ]
 download: [["thesis.pdf", "PDF"],
   ["thesis.epub", "EPUB"],
   ["thesis.docx", "Word"]

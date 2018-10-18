@@ -1,123 +1,110 @@
-# Mathematics and Science {#math-sci}
+# THEORETICAL FRAMEWORK 
+There are multiple measurement concepts that are connected in this study that will be described individually before being assembled into a unified whole. The concepts are item response theory and Rasch models, criterion-related validity, short form item selection, cross-validation techniques, and bootstrap techniques. 
 
-<!-- Required to number equations in HTML files -->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
+## Item Response Theory and Rasch Models 
 
-## Math
+Many researchers turn to item response theory (IRT) models to measure some unobserved, or latent, variable in an attempt to study, understand, and utilize its properties for other purposes. These latent variables are assumed to be the cause of observed behaviors, which are used to measure the latent variable. A common example, used by DeVellis (2012), is the use of the latent variable “depression” or “anxiety” to explain observable behaviors that are presumed to be caused by these traits. By measuring these behaviors, we can gain insight to the latent variable we truly want to investigate. IRT models are generally used to try and capture a gradient of the intended (singular) latent variable with item responses on a test serving as the observed behaviors that measure that latent variable. Rasch models are a similar family of statistical models for measuring latent traits, and mostly differ from IRT models on a philosophical level. Both IRT models and Rasch models can be an effective framework to use in the creation, analysis, and improvement of scales and tests (Linacre, 2002; Lord, 1980). 
 
-\TeX\ is the best way to typeset mathematics. Donald Knuth designed \TeX\ when he got frustrated at how long it was taking the typesetters to finish his book, which contained a lot of mathematics.  One nice feature of _R Markdown_ is its ability to read LaTeX code directly.
+Rasch models are a family of probabilistic models that estimate a latent trait based on the observed responses to items on a test or scale (Rasch, 1993). The family of Rasch models has a certain feature that distinguishes it from IRT models, specifically the fixing of item discrimination to a constant across items. This feature results in an upholding of the sufficiency property, which leads to a person’s unweighted summated score on a Rasch-scored test being the sufficient statistic for his/her latent trait estimate. This property implies that an unbiased estimate of an untested person’s latent trait from the population can be found by comparing that person’s summated score with a previously developed conversion table of summated scores to latent trait scores. The probability of correct response for a binary Rasch model is given by: 
 
-If you are doing a thesis that will involve lots of math, you will want to read the following section which has been commented out. If you're not going to use math, skip over or delete this next commented section.
+(equation 2-1 here)
 
+where $\theta_i$ is person $i$'s ability, and $b_j$ is the difficulty of item $j$. Binary Rasch models generally require a sample of 50 examinees assuming the examinees’ ability levels match well with the item difficulties, though the suggested sample sizes range from 30 (absolute minimum) to 20 times the test length or even larger (high stakes and adverse circumstances) depending on how stable the item calibration needs to be (Linacre, 1994). 
 
-<!-- MATH and PHYSICS majors: Uncomment the following section -->
-<!--
-$$\sum_{j=1}^n (\delta\theta_j)^2 \leq {{\beta_i^2}\over{\delta_i^2 + \rho_i^2}}
-\left[ 2\rho_i^2 + {\delta_i^2\beta_i^2\over{\delta_i^2 + \rho_i^2}} \right] \equiv \omega_i^2
-$$
+Many IRT models allow item discrimination to vary across items and, therefore, do not uphold the property of sufficiency. Rather, response patterns are used to determine latent traits (i.e., pattern scoring methods). For example, the 2PL model (Birnbaum, 1968) allows for items to differentially discriminate individuals across the test, meaning that for two items of the same difficulty there may be different conditional probabilities for scoring a 1 as opposed to a 0. In this model the unweighted summated score is no longer a useful statistic. Instead, a weighted summated score is used where the discrimination parameter serves as the weight (Baker & Kim, 2004). The probability of a correct response for a binary 2PL model is given by: 
 
-From Informational Dynamics, we have the following (Dave Braden):
+(equation 2-2) 
 
-After _n_ such encounters the posterior density for $\theta$ is
+where $a_j$ is the item discrimination parameter. 
 
-$$
-\pi(\theta|X_1< y_1,\dots,X_n<y_n) \varpropto \pi(\theta) \prod_{i=1}^n\int_{-\infty}^{y_i}
-   \exp\left(-{(x-\theta)^2\over{2\sigma^2}}\right)\ dx
-$$
+## Criterion-Related Validity  
 
-Another equation:
+“Criterion-related validity is evaluated by comparing the test scores with one or more external variables (called criteria) considered to provide a direct measure of the characteristic or behavior in question” (Messick, 1987, p. 8). Generally, to evaluate criterion-related validity, researchers follow these steps provided by Crocker and Algina 
+(2008, p. 224): 
+1.	Identify a suitable criterion behavior and a method for measuring it.  
+2.	Identify an appropriate sample of examinees representative of those for whom the test will ultimately be used.  
+3.	Administer the test and keep a record of each examinee's score.  
+4.	When the criterion data are available, obtain a measure of performance on the criterion for each examinee.  
+5.	Determine the strength of the relationship between test scores and criterion performance. 
+ 
+Historically there have been two broad categories of criterion-related validity with tests: predictive, referring to the test’s ability to predict future criterion measurements, and concurrent, referring to the relationship between the test and simultaneous criterion measurements. Current standards in the field of measurement do not refer to specific types of validity, but rather the sources for validity evidence. The historical categories now fall under validity evidence based on relations to other variables in the Standards for Educational and Psychological Testing (AERA, APA, & NCME, 2014). This study focuses on the test-criterion relationship validity of a latent ability score and an external, binary classification.  
 
-$$\det\left|\,\begin{matrix}%
-c_0&c_1\hfill&c_2\hfill&\ldots&c_n\hfill\cr
-c_1&c_2\hfill&c_3\hfill&\ldots&c_{n+1}\hfill\cr
-c_2&c_3\hfill&c_4\hfill&\ldots&c_{n+2}\hfill\cr
-\,\vdots\hfill&\,\vdots\hfill&
-  \,\vdots\hfill&&\,\vdots\hfill\cr
-c_n&c_{n+1}\hfill&c_{n+2}\hfill&\ldots&c_{2n}\hfill\cr
-\end{matrix}\right|>0$$
+Most studies and applications of concurrent criterion-related validity that involve short forms follow the steps listed above for evaluation of criterion-related validity. For this study, it is hypothesized that multiple short forms are available and that some are better predictors of the true external relationship than others. Form selection, therefore, does not have to treat external criterion validity as a post-hoc concern to form use, as described in the steps above. Rather, external criterion validity concerns can be built into the selection process itself.
 
+## Short-Form Item Selection 
 
-Lapidus and Pindar, Numerical Solution of Partial Differential Equations in Science and
-Engineering.  Page 54
+For general short form or short scale creation, the standard practices include using theoretical justifications for the inclusion or exclusion of items, removing items with similar or even redundant information, obtaining a certain criterion of an IRT parameter (e.g., item discriminations, item difficulties), improving measures of reliability and dimensionality, and so on (Wu et al., 1991; Ware & Sherbourne, 1992; Fraley, Waller, & Brennan, 2000; Reeve & Fayers, 2005; Lafontaine et al, 2015). In essence, the focus of item selection for short forms tends to be on internal structure rather than external relationships. Schipolowski et al. (2014) provide a recent example of this in action by constructing and comparing multiple short forms for measuring crystallized intelligence. The primary considerations in creating the short forms were fitting a unidimensional measurement model and testing its reliability; after these were met, the researchers discovered the short forms had very low measurement precision 
 
-$$
-\int_t\left\{\sum_{j=1}^3 T_j \left({d\phi_j\over dt}+k\phi_j\right)-kT_e\right\}w_i(t)\ dt=0,
-   \qquad\quad i=1,2,3.
-$$
+However, there are some researchers who have proposed alternative foci for item selection procedures. Leite et al. (2008) demonstrated the ant colony optimization (ACO) algorithm as a way of selecting items that not only fit the original full form latent structure but also maximize the relationship of the selected items with an external criterion. The simulation results showed that the ACO algorithm short form had a noticeably greater correlation with the covariate compared to the other test forms. Olaru et al. (2015) found additional evidence that the ACO algorithm outperforms three of four alternative methods tested. The methods it outperformed were maximizing reliability/main loadings, minimizing modification indices/cross loadings, and the PURIFY Algorithm methods. It performed about as well as a genetic algorithm. However, the goal of this method is to produce a short form from a pool of available items. The current study focuses on the selection of already developed short forms, which can be useful when other considerations about the short forms need to be met (e.g., content balancing). In such cases, only a particular subset of short forms are available for use, rather than any possible combination of available items. 
 
-L\&P  Galerkin method weighting functions.  Page 55
+## Cross-Validation Techniques 
 
-$$
-\sum_{j=1}^3 T_j\int_0^1\left\{{d\phi_j\over dt} + k\phi_j\right\} \phi_i\ dt
-   = \int_{0}^1k\,T_e\phi_idt, \qquad i=1,2,3 $$
+There are a variety of methods that fall under the cross-validation term, but the focus will be on three variations: leave-one-out (LOO) (Stone, 1974), k-fold (Kohavi, 1995), and the repeated holdout method (Kim, 2009). Table 2-1 details how these procedures are performed. The goal for each method is to find the model that minimizes the estimated prediction error across future out-sample data.  
 
-Another L\&P (p145)
+Cross-validation procedures provide an estimate of the accuracy of models that is centered on a loss-function. This paper adapts a general notation for a loss function given in Efron and Tibshirani (1997). A loss function is noted by $Q[y,r]$ which indicates a discrepancy between actual observed outcomes $y$ ( i.e. true external criterion classification in short-form selection), and predicted outcomes $r$ (i.e. prediction external criterion classification in short-form selection). For a dichotomous 0-1 outcome, $Q$ is formulated as 
 
-$$
-\int_{-1}^1\!\int_{-1}^1\!\int_{-1}^1 f\big(\xi,\eta,\zeta\big)
-   = \sum_{k=1}^n\sum_{j=1}^n\sum_{i=1}^n w_i w_j w_k f\big( \xi,\eta,\zeta\big).
-$$
+(equation 2-3 here)
 
-Another L\&P (p126)
+When $y$ is used to estimate $r$, $Q$ tends to provide a downward-biased estimate of the error due to overfitting the data. The values of $y$ are conditioned upon $x$ (the vector of predictors for $y$) such that for an observation $i$ the outcome $y_i$ is predicted from the vector $x_i$ (i.e. a person response pattern in short-form selection), generally written as ($x_i$, $y_i$).
 
-$$
-\int_{A_e} (\,\cdot\,) dx dy = \int_{-1}^1\!\int_{-1}^1 (\,\cdot\,) \det[J] d\xi d\eta.
-$$
--->
+The methods of cross-validation try to correct this biased estimate of error by removing the observation(s) ($x_i$, $y_i$) from the creation of $r$, then fitting $Q$ to estimate the error. By averaging this error across all values of ($x_i$, $y_i$), we can create an estimate of the error that does not suffer from the downward-bias caused by using $y_i$ twice. This loss function is written as $Q(y_i, \boldsymbol{x_{i*}}$ where $\boldsymbol{x_{i*}}$ represents the matrix of the observations excluding those indexed by $i$.
 
-## Chemistry 101: Symbols
+Stone (1974) used this idea to formulate the leave-one-out cross-validation procedure denoted by 
 
-Chemical formulas will look best if they are not italicized. Get around math mode's automatic italicizing in LaTeX by using the argument `$\mathrm{formula here}$`, with your formula inside the curly brackets.  (Notice the use of the backticks here which enclose text that acts as code.)
+(equation 2-4 here)
 
-So, $\mathrm{Fe_2^{2+}Cr_2O_4}$ is written `$\mathrm{Fe_2^{2+}Cr_2O_4}$`.
+That is, the estimated error of a model is the value of its loss function $Q$ averaged for each observation $i$ removed from the data set, one at a time.  
 
-<!--
-The \noindent command below does what you'd expect:  it forces the current line/paragraph to not indent. This was done here to match the format of the LaTeX thesis PDF.
--->
+Stone (1974) also considered an early version of the k-fold cross-validation procedure (in some circles, particularly machine learning, this is called v-fold crossvalidation; see Geisser (1975) for an early example). This procedure splits the data of size n into k partitions of approximately equal size such that $n=n_1+n_2+...+n_k$ and the difference between any two partitions is 0 or 1. Then the estimated error is given by
 
-\noindent Exponent or Superscript: $\mathrm{O^-}$
+(equation 2-5 here)
 
-\noindent Subscript: $\mathrm{CH_4}$
+where you average the estimated error for each observation $i$ in each fold $k$ on the folds that $i$ is not present. Leave-one-out cross-validation is a special case of k-fold cross-validation when $k$ is equal to the sample size of the data set. 
 
-To stack numbers or letters as in $\mathrm{Fe_2^{2+}}$, the subscript is defined first, and then the superscript is defined.
+The holdout method is an old technique for assessing prediction error that has been used since at least 1931 (Larson, 1931; Devroye and Wagner, 1979). It is, in essence, a variation of k-fold cross-validation where there are 2 randomly partitioned folds, a testing and a training set, that are not necessarily the same size. Different fields have different rules of thumb for the ratio of testing to training sets, but the general consensus is that 50% to 90% of the data needs to be used for training and the rest used for testing. The error estimate function for the holdout method, then, is similar to the leave-one-out error where the “left out” group $y_i$ corresponds to the testing set and the prediction matrix $\boldsymbol{x_{i*}}$ corresponds to the training set. The repeated holdout method performs the holdout estimation h times, with each repetition re-partitioning the data. 
 
-\noindent Bullet: CuCl $\bullet$ $\mathrm{7H_{2}O}$
+The final error estimate is the average error estimate of each repetition: 
 
+(equation 2-6 here) 
 
-\noindent Delta: $\Delta$
+The repeated holdout method can be extended to a repeated k-fold cross-validation as well by replacing the holdout data process with the k-fold data process (Burman, 1989; Kim, 2009). Repeating the k-fold procedure reduces the variance of the k-fold estimate, leading to better decisions based on the estimate. This idea is used to formulate and test a new procedure described later in the next section. 
 
-\noindent Reaction Arrows: $\longrightarrow$ or  $\xrightarrow{solution}$
+In other prediction-improvement problems, cross-validation has proven to be a useful tool. Stone (1974) provides an overview of cross-validation, which includes a statistical framework for the selection of a class of predictors (model selection), followed by Gong (1986) applying cross-validation to logistic regression and Cooil et al. (1987) using the procedure specifically for assessing the predictive performance of a linear regression model. More recently, Molinaro et al. (2005) compared cross-validation and other resampling methods for assessing prediction ability in some common genomic experiments situations.  
 
-\noindent Resonance Arrows: $\leftrightarrow$
+There are additional cross-validation procedures available in the literature. The leave-p-out method is one example. It involves creating samples from the original data such that p data points are left out and every possible combination of samples is used to estimate the model error (Shao, 1993). The computational requirements for finding, training, and testing this exhaustive sample set can increase rapidly even for small p and especially as n increases and, hence, it was not included in this study. For example, with n = 50 and p = 5, there are 2,118,760 combinations and thus iterations of the leave-p-out method for each model you are interested in testing. A somewhat more popular technique is the 5x2cv method (Diettrich, 1998), which is used when there are two models from which to choose. However, the current study is choosing from three or more models under various conditions, making this method less appealing without some revision. These and other cross-validation method may deserve attention in future research based on the results of this study. 
 
-\noindent Reversible Reaction Arrows: $\rightleftharpoons$
+## Bootstrap Techniques 
 
-### Typesetting reactions
+Molinaro et al. (2005) also demonstrated that the .632+ bootstrap can be as, or more, effective than some cross-validation techniques in some circumstances. Jiang and Simon (2007) compared LOOCV, various standard bootstrap techniques (ordinary, CV, LOO, 0.632+), and their own bootstrap variations (repeated LOO, adjusted bootstrap) in simulated genomic data, showing that there is a bias-variance tradeoff between the methods, meaning that no tested method had universally better prediction error estimates in their simulated conditions. Bootstrapping in general has been used for decades to assess the prediction error of regression models (e.g. Efron and Tibshirani, 1993; Davison and Hinkley, 1997) but only more recently has been used to develop predictive models (Austin and Tu, 2004). Thus, this paper will also compare the CV bootstrap (or LOO bootstrap; referred to as the $e_0$ bootstrap in this paper), 0.632 bootstrap, and repeated LOO bootstrap (referred to as RLOOB in this paper) alongside the previous 3 cross-validation methods to see how well (or not) each can improve the concurrent predictive accuracy of the aforementioned tests. 
 
-You may wish to put your reaction in an equation environment, which means that LaTeX will place the reaction where it fits and will number the equations for you. 
+The $e_0$ bootstrap is formulated as 
 
-\begin{equation}
-  \mathrm{C_6H_{12}O_6  + 6O_2} \longrightarrow \mathrm{6CO_2 + 6H_2O}
-  \label{eq:reaction}
-\end{equation}
+(equation 2-7 here)
 
-We can reference this combustion of glucose reaction via Equation \@ref(eq:reaction).
+where the error in predicting observation $y_i$ from every bootstrapped data set $\boldsymbol{x}_{i*}^{(b)}$ that does not include this observation is averaged across the cardinality (or total number) of $C_{-i}$ for every $y_i$ (Efron and Tibshirani, 1997). This bootstrap is used to estimate the 0.632 bootstrap by using a weighted average of $e_0$ and the resubstitution, or apparent, error rate, found by estimating the error of a model when using the full data set, such that
 
-### Other examples of reactions
+(equation 2-8 here) 
 
-$\mathrm{NH_4Cl_{(s)}}$ $\rightleftharpoons$ $\mathrm{NH_{3(g)}+HCl_{(g)}}$
+The justification for the chosen coefficients in this weighted average lies within the fact that a bootstrap sample, on average, has $0.632n$ unique observations from the original sample point. Thus, the $e_0$ bootstrap tends to suffer from upward bias of the estimate of error (Efron and Tibshirani, 1997). 
 
-\noindent $\mathrm{MeCH_2Br + Mg}$ $\xrightarrow[below]{above}$ $\mathrm{MeCH_2\bullet Mg \bullet Br}$
+Jiang and Simon (2007) proposed the repeated leave-one-out bootstrap (RLOOB) as 
 
-## Physics
+(equation 2-9 here) 
 
-Many of the symbols you will need can be found on the math page <http://web.reed.edu/cis/help/latex/math.html> and the Comprehensive LaTeX Symbol Guide (<http://mirror.utexas.edu/ctan/info/symbols/comprehensive/symbols-letter.pdf>).
+This method is a combination of the leave-one-out cross-validation procedure and the bootstrap. It contrasts itself with the $e_0$ leave-one-out bootstrap by a) specifically performing a number of bootstrap resamples for each $y_i$ and b) estimating the prediction error on those bootstrap resamples performed for that $y_i$ only. Theoretically, it provides a correction similar to the .632 bootstrap because repeated resampling of the data without $y_i$ increases the proportion of distinct observations included in the bootstrap samples.  
 
-## Biology
+Similar to cross-validation, there are some bootstrap techniques that have not been included in this study. The .632+ bootstrap, Efron’s attempt to improve the .632 bootstrap, was only considered for inclusion if the results of this study showed if and how much the .632 estimate was biased under the studied conditions. If the .632 is upward bias and the resubstitution is downward bias, it would indicate that the .632+ should be investigated. Bayesian bootstrap techniques, which creates new datasets by assigning weights to the initial data, have been shown to provide stable estimates in cases where the sample size and number of parameters are similar in number (Fushiki, 2010). However, in the current simulation the sample size is nearly twice the number of parameters under the smallest sample size condition, so these techniques were not included. 
 
-You will probably find the resources at <http://www.lecb.ncifcrf.gov/~toms/latex.html> helpful, particularly the links to bsts for various journals. You may also be interested in TeXShade for nucleotide typesetting (<http://homepages.uni-tuebingen.de/beitz/txe.html>).  Be sure to read the proceeding chapter on graphics and tables.
+In addition to the previously mentioned techniques, this study investigates a combined cross-validation/bootstrap method where for each k-fold sample B bootstrap resamples are performed and the error rate of each averaged. 
 
+(equation 2-10 here) 
+
+The idea for this method comes from combining the ideas of the repeated k-fold and repeated bootstrap techniques.  
+
+## Research Purpose 
+
+While there has been much written about the proper creation and selection of items for scales and tests in both the IRT and Rasch framework, a review of the literature shows that using cross-validation and bootstrap procedures for choosing between short forms of a test for the purpose of minimizing the prediction error of an out-sample classification (e.g. passing or failing) is an area of research that has yet to be investigated. The first half of this study focuses on evaluating short-form model selection methods to test the predictive ability of dichotomously-scored Rasch tests while the second extends this to 2-PL IRT tests. 
+
+This study aims to examine the utility of cross-validation and bootstrap procedures for improving concurrent criterion estimation accuracy of a dichotomouslyscored test. Several factors are explored including the measurement model used (Rasch vs. 2PL), the sample size, and the multiple cross-validation and bootstrap techniques. This study is conducted with a 30-item “long-form” test and three preconstructed 10-item “short-form” tests, and the external criterion is created from the true latent ability variable. These tests are described in more detail in the next section. Each of the short form tests are considered separate models for the purposes of model selection via cross-validation and bootstrap error estimates. 
+
+Broadly, the research question is: “Can cross-validation and/or bootstrap procedures be used to select test short forms that best approximate the relationship between test scores and an external criterion?” This is broken up into three smaller research questions: 1) Do the various cross-validation and bootstrap procedures vary in their performance in selecting the short form that best approximates the external criterion relationship? 2) Does the performance of these procedures vary across different sample sizes? 3) Does the performance of these procedures differ between binary Rasch and 2PL models?  

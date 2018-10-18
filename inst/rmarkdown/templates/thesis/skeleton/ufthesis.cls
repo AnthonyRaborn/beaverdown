@@ -631,25 +631,6 @@
     \vfill%
     \end{simpleenv}%
     \setboolean{SetDSpace}{true}}%
-%
-% new ones based on brockdown
-% \newcommand{\dedication}{\dedcontent} % already included above
-% \definevar[*]{dedcontent}
-% \newcommand{\dedpage}{
-%   \if \@dedcontent *
-%   \else
-%   \pagestyle{empty}
-%   \GoSingle
-%   \vspace*{\fill}
-%   \begin{center}
-%   \@dedcontent
-%   \end{center}
-%   \GoDouble
-% 
-%   \vfill
-%   \setboolean{SetDSpace}{true}
-% }
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%        Acknowledgments                         %
@@ -684,7 +665,7 @@
     \GradMonth\ \GradYear \\*[\BaseDiff\baselineskip]%
     \end{RS@Cent}%
     {\raggedright Chair: \Chair \\%
-    %\raggedright Cochair: \Cochair \\%uncomment this line if you have a cochair
+    \ifcochair \raggedright Cochair: \Cochair \\%
     Major: \Department} %
     \setboolean{SetDSpace}{true}%
     \par%
@@ -763,9 +744,11 @@
 \newcommand*{\SetChair}[1]{\renewcommand*{\Chair}{#1}}%
 \newcommand*{\Chair}{UNDEFINED Chair}%
 \@onlypreamble{\SetChair}%
-%\newcommand*{\SetCochair}[1]{\renewcommand*{\Cochair}{#1}}%uncomment these three lines if you have a Cochair
-%\newcommand*{\Cochair}{UNDEFINED Cochair}%Line 2
-%\@onlypreamble{\SetCochair}%Line 3
+\newcommand*{\SetCochair}[1]{\renewcommand*{\Cochair}{#1}}%uncomment these three lines if you have a Cochair
+\newcommand*{\Cochair}{UNDEFINED Cochair}%Line 2
+\@onlypreamble{\SetCochair}%Line 3
+% newly added to hopefully make \SetCochair more programmatic
+\newif\ifcochair
 \newcommand*{\SetSubmitdate}[1]{\renewcommand*{\Submitdate}{#1}}%
 \newcommand*{\Submitdate}{UNDEFINED Submitdate}%
 \@onlypreamble{\SetSubmitdate}%

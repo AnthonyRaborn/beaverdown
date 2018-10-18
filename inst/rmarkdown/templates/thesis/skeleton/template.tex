@@ -9,8 +9,10 @@
 
   % Preamble %
 
+
   % Define Packages To be used and options NOTE: If you add any packages please add them before the hyperref package%
   \include{packages}
+
 %\def\UrlFont{\rmfamily} %use this line for Times New Roman
 \def\UrlFont{\sffamily} %use this line for CMSS
 
@@ -46,8 +48,10 @@
 \SetGradMonth{$commencementmonth$} % {October}
 \SetDepartment{$department$} % {Research and Evaluation Methodology}
 \SetChair{$chair$} % {Some D. Name}
-% \cochair{$cochair$} % {Another P. Name} % if you have a cochair, uncomment this
-
+$if(cochair)$
+\SetCochair{$cochair$} % {Another P. Name}
+\cochairtrue
+$endif$
 
 %------------------------------------------%
 
@@ -56,9 +60,9 @@
 
   % attempt to control R Markdown syntax highlighting
   $if(highlighting-macros)$
-  $highlighting-macros$ 
+  $highlighting-macros$
   $endif$
-  
+
 %-------------------------------------------------------------------------------------------------------%
 
   % Begin Main Part of Document %
@@ -84,7 +88,7 @@
 
 %-----------------------------------------------------------------------%
 
-\maketitle 
+\maketitle
 % % % % Creates the Title page from the given information
 \makecopyright
 
@@ -99,14 +103,13 @@ $endif$ % %Includes the dedication - if your dedication is more than a single li
 %------------------------------------------%
 
 $if(acknowledgements)$
-	$acknowledgements$
+	\acknowledge{$acknowledgements$}
 $endif$ % % % %Required - There is no requirement to acknowledge a particular person
 % % % % % % % % % % % % % % % % %but you must acknowledge someone (funding source, committee chair, spouse)?
 
 %------------------------------------------%
 
-% This file includes the file which creates the table of contents %
-\include{tex/TOC} %This file creates the Table of Contents, List of Figures, and List of Objects (if any)
+\tableofcontents %This  creates the Table of Contents, List of Figures, and List of Objects (if any)
 % % % % % % % %delete or comment the file you want to remove
 
 %------------------------------------------%
@@ -115,13 +118,14 @@ $endif$ % % % %Required - There is no requirement to acknowledge a particular pe
 %%Best practice is to define the item the first time it is used in the document
 
 $if(abbreviations)$
-	\dedication{$abbreviations$}
+	\abbreviations{$abbreviations$}
 $endif$
 
 
 %------------------------------------------%
 % This line adds the word CHAPTER to the TOC just before the listing of the chapter and subsections begins
-\addtocontents{toc}{\protect\addvspace{10pt}\noindent{CHAPTER}\protect\hfill\par}{}% This extra line adds the word CHAPTER to the table of contents %
+\addtocontents{toc}{\protect\addvspace{10pt}
+\noindent{CHAPTER}\protect\hfill\par}{}% This extra line adds the word CHAPTER to the table of contents %
 \phantomsection
 % original: \include{tex/abstract} %The abstract is created using this file and userinfo.tex
 % gatordown edit:
@@ -139,23 +143,20 @@ $endif$
 
 	$body$
 
-%\include{tex/chapter6}  %These chapters are not included in the template
-%\include{tex/chapter7}
-
 %-----------------------------------------------------------------------%
-
+%
+%%%%%% THIS PART ABOUT APPENDICES IS DEPRECIATED, IGNORE %%%%%%
 % Use the appropriate file depending upon the number of appendices you have
-
-
-\include{tex/TwoOrMoreAppendices} %Use this file if you have two or more appendices
-
+%
+%\include{tex/TwoOrMoreAppendices} %Use this file if you have two or more appendices
+%
 %\include{tex/OneSingleAppendix} %Use this file if you have one and only one appendix
-
+%
 %------------------------------------------%
 
 % Make List of References (BibTeX implemented using the Natbib package)
 % un-comment your preferred bibliography style and replace the
-% bibliography file "sample" with the name of your .bib file
+% bibliography file "bib/citations" with the name of your .bib file
 % REMEMBER!!! If you want un-numbered references comment the Natbib package with
 % The numbered options in the packages.tex file and un-comment the package with the authoryear option
 % See the included pdfs of the various styles to see the differences.
@@ -163,13 +164,14 @@ $endif$
 % More options are available; see the Natbib documentation for details
 
 
-\bibliography {bib/sample,bib/example}
+\bibliography{bib/citations}
 % You can have more than one library of references - put the .bib file
 % in the bib folder and call it here
 %------------------------------------------%
 
 % Bio Sketch is required and should be in third person, past tense%
-\include{bio}
+
+\biography{$bio$}
 
 %------------------------------------------%
 

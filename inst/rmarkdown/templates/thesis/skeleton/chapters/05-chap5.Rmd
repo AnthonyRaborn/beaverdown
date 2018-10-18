@@ -1,32 +1,30 @@
+# CONCLUSIONS AND DISCUSSION 
+## Conclusions 
+### Rasch Model 
 
-# Conclusion {.unnumbered}
-  \setcounter{chapter}{4}
-	\setcounter{section}{0}
+Overall, the methods performed very similarly to one another on average within the Rasch framework, with one noticeable exception: the $e_0$ bootstrap, and by extension the .632 bootstrap, was noticeably positively biased overall and had an order of magnitude greater bias than any other method. Even the error estimate variances shown in table 3 (and thus the standard deviations) are remarkably similar, differing by tenths of a percent. This means that there should be no preference between the methods based solely on the biases and variances of the methods under the current conditions. 
 
-If we don't want Conclusion to have a chapter number next to it, we can add the `{.unnumbered}` attribute.  This has an unintended consequence of the sections being labeled as 3.6 for example though instead of 4.1.  The \LaTeX\ commands immediately following the Conclusion declaration get things back on track.
+The differences between methods of the same family (e.g., 5-fold vs. 10-fold CV) are even smaller. In fact, throughout the replications, 15- and 20-fold CV performed exactly the same. In many cases, so did the variants of the repeated LOO bootstrap. Perhaps most surprising is the performance of the resubstitution error. Under the current conditions, it performed as well as the more complex methods. These results fueled the decision to remove the 15-fold CV, 15-Repeated LOOB, $e_0$ and .632 bootstrap methods. 
 
-**More info**
+### 2PL Model
+ 
+The results of this simulation show much more variation in the methods’ performance compared to the Rasch framework. The repeated LOO-bootstrap methods performed noticeably worse in the 100n conditions, overestimating the error by about three times that of the LOOCV and resubstitution method, but with 200n they are more similar. The 5-bootstrap 10-fold method, though, performed even worse in the 100n and did not see similar levels of bias until the 500n conditions. These methods, therefore, should not be used under any conditions similar to the ones tested here. 
 
-And here's some other random info: the first paragraph after a chapter title or section head _shouldn't be_ indented, because indents are to tell the reader that you're starting a new paragraph. Since that's obvious after a chapter or section title, proper typesetting doesn't add an indent there.
+The k-fold CV methods performed similarly under 200n and 500n, but with a small sample size larger values of k resulted in lower bias. Given that k-fold CV becomes more similar to LOOCV as k approaches n, this result makes sense. LOOCV and resubstitution performed approximately the same across each condition and resulted in the lowest mean bias overall. Therefore, one of these two methods should be used over the other tested methods when conditions are similar to the ones simulated.  
 
-<!--
-If you feel it necessary to include an appendix, it goes here.
--->
+### Overall 
 
-\appendix
+This study sought to investigate the use of various cross-validation and bootstrap model selection techniques to select between different short forms of Rasch and 2PL tests on the basis of maximizing the relationship between test scores and an external criterion.  
+There is little evidence of significant differences between the tested methods, with the exception that the e0 and .632 bootstraps overestimated the error in the binary 
+Rasch model. Somewhat surprisingly, the best performing method was the Resubstitution method as it has the lowest overall bias between the two simulations. Sample size did not produce a large difference in the mean error or the bias of the models, but did reduce the variance of the estimates. Finally, the methods showed some differences between the Rasch and 2PL models. Perhaps due to the difference in model complexity, the methods had little variation between them under the Rasch model but showed more under the 2PL model, suggesting that using more complex models or relationships between variables may produce even more differences between the methods. These results are similar to the results in Molinaro (2005), where the differences between the methods diminished as sample size increased. 
+However, every method tested was able to correctly select the short-form with the lowest out-sample misclassification rate in each of the simulations’ conditions. These results support the idea that these methods can be used to help choose between short forms of a test.
+ 
+## Discussion 
+### Limitations 
 
-# The First Appendix
+A problem that this simulation encountered, particularly for the smallest sample size conditions, is that there are sometimes issues with the parameter estimations converging onto a solution, leading to problems with estimating abilities. If this were solely an issue with sample size, then we would expect to see an approximately equal amount of issues across the conditions; however, this issue occurs exclusively with the repeated bootstrap and the bootstrapped k-fold methods. This simulation also investigated a perfectly-correlated external criterion variable, which is not likely to occur in real data. While there is some investigation into the sensitivity of these methods, specific to the degree to which the methods can determine differences between two or more short forms, this study did not directly consider the methods’ sensitivity. 
 
-This first appendix includes all of the R chunks of code that were hidden throughout the document (using the `include = FALSE` chunk tag) to help with readibility and/or setup.
+### Future Areas of Research 
 
-**In the main Rmd file**
-
-```{r ref.label='include_packages', results='hide', echo = TRUE}
-```
-
-**In Chapter \@ref(ref-labels):**
-
-```{r ref.label='include_packages_2', results='hide', echo = TRUE}
-```
-
-# The Second Appendix, for Fun
+Future studies should continue to investigate how these methods perform under other conditions such as a) more similar short forms (e.g. forms designed to be parallel), 
+b) short forms produced through other item selection techniques, like the ACO algorithm and maximum information, c) misspecified models, d) an external criterion is not perfectly correlated with the simulated latent ability, and e) cross-validation with multidimensional, multilevel, or mixture models. In addition, there may be some use for these methods in helping set optimal cutoff scores under different cutoff paradigms on the test for out-sample cases. Woehr et al. (1991) describe various methods for setting cutoff scores, of which the content- and criterion-related methods may be of particular interest. Finally, investigating other approaches to criterion-related validity, e.g. correlation with another measure of the same behavior, may lead to other uses of the methods described in this study.
