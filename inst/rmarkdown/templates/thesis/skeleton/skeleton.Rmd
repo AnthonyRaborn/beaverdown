@@ -24,7 +24,9 @@ knit: "bookdown::render_book"
 output:
   gatordown::thesis_pdf
 bibliography: bib/citations.bib
-# Download your specific bibliography database file and refer to it in the line above.
+# Download your specific bibliography/reference database file and refer to it in the line above.
+bibstyle: bst/apa-good
+# The bibliography style reference. Do NOT include the file extension (.bst)!
 csl: csl/apa.csl
 # Download your specific csl file and refer to it in the line above.
 ---
