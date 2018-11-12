@@ -108,3 +108,16 @@ While there has been much written about the proper creation and selection of ite
 This study aims to examine the utility of cross-validation and bootstrap procedures for improving concurrent criterion estimation accuracy of a dichotomouslyscored test. Several factors are explored including the measurement model used (Rasch vs. 2PL), the sample size, and the multiple cross-validation and bootstrap techniques. This study is conducted with a 30-item “long-form” test and three preconstructed 10-item “short-form” tests, and the external criterion is created from the true latent ability variable. These tests are described in more detail in the next section. Each of the short form tests are considered separate models for the purposes of model selection via cross-validation and bootstrap error estimates. 
 
 Broadly, the research question is: “Can cross-validation and/or bootstrap procedures be used to select test short forms that best approximate the relationship between test scores and an external criterion?” This is broken up into three smaller research questions: 1) Do the various cross-validation and bootstrap procedures vary in their performance in selecting the short form that best approximates the external criterion relationship? 2) Does the performance of these procedures vary across different sample sizes? 3) Does the performance of these procedures differ between binary Rasch and 2PL models?  
+
+Should be a table here.
+
+| Leave-One-Out | k-Fold | Repeated Holdout Method |
+|---------------|---------------|---------------|
+|1. Remove data point i from data | 1. Randomly assign data to k groups such that the groups are equal size | 1. Randomly assign data to 2 groups, S1 and S2 (in practice, there is usually a 1:2 ratio of S1: S2, but this can vary). |
+|2. Estimate model(s) on N-1 data remaining | 2. Remove group k1 and estimate model(s) on k-1 remaining groups | 2. Remove S1 and estimate models on S2 |
+| 3. Predict data point i | 3. Predict values of group k1 | 3. Predict values of S1 | 
+| 4. Calculate error of prediction | 4. Calculate error of prediction | 4. Calculate error of prediction | 
+| 5. Repeat steps 1-4 until all data points have been predicted | 5. Repeat steps 1-4 until all groups have been predicted | 5. Repeat steps 1-4 h times |
+| 6. Calculate mean error by summing all errors and dividing by N | 6. Calculate mean error by summing all errors and dividing by k | 6. Calculate mean error by summing all errors and dividing by h |
+7. Select the model with lowest mean error | 7. Select the model with lowest  mean error | 7. Select the model with lowest  mean error |
+8. Run the model on the entire data set and use the parameters | 8. Run the model on the entire data set and use the parameters | 8. Run the model on the entire data set and use the parameters |
