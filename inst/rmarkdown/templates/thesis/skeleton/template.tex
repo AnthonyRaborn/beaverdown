@@ -9,6 +9,13 @@
 
   % Preamble %
 
+  % Added packages/commands to force table environments into single-space
+    \usepackage{etoolbox}
+    \usepackage{setspace}
+    \AtBeginEnvironment{tabular}{\singlespacing}
+    \AtBeginEnvironment{lltable}{\singlespacing}
+    \AtBeginEnvironment{longtable}{\singlespacing}
+
 
   % Define Packages To be used and options NOTE: If you add any packages please add them before the hyperref package%
   \include{packages}
@@ -52,7 +59,7 @@ $if(cochair)$
 \SetCochair{$cochair$} % {Another P. Name}
 \cochairtrue
 $endif$
-
+\listtables{$listtables$}
 %------------------------------------------%
 
   % user defined commands in order to generate new commands, macros, and redefine default commands %
@@ -110,6 +117,10 @@ $endif$ % % % %Required - There is no requirement to acknowledge a particular pe
 %------------------------------------------%
 
 \tableofcontents %This  creates the Table of Contents, List of Figures, and List of Objects (if any)
+
+$if(listtables)$
+  \listoftables %if you have any tables
+$endif$
 % % % % % % % %delete or comment the file you want to remove
 
 %------------------------------------------%

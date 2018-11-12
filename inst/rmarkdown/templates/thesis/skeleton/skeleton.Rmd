@@ -19,6 +19,7 @@ abstract: |
 # abbreviations: "pre/00-abbreviations.Rmd" # OPTIONAL; it's preferred to write out abbreviations the first time you use them
 bio: |
   `r if(knitr:::is_latex_output()) paste(readLines("post/31-bio.Rmd"), collapse = '\n  ')`
+listtables: false
 # End of UF thesis fields
 knit: "bookdown::render_book"
 output:
@@ -30,3 +31,16 @@ bibstyle: bst/apa-good
 csl: csl/apa.csl
 # Download your specific csl file and refer to it in the line above.
 ---
+
+
+
+```{r packages, echo = F, message = F, results = 'hide', warning = F}
+## These packages are necessary for the example tables
+library(kableExtra, quietly = T)
+library(dplyr, quietly = T)
+## these options are useful for suppressing R chunks from the output
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
+## this guarantees knitr, kable, and kableExtra output LaTeX formatted tables
+options(knitr.table.format = "latex")
+```
+

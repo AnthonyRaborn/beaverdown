@@ -137,6 +137,7 @@
 \definevar{major}
 \definevar{department}
 \definevar{chair}
+\definevar{tables}
 
 \definevar[*]{twomajor}
 \definevar[*]{twodepartment}
@@ -764,6 +765,7 @@
     \hspace*{0.1in}\hspace{-0.1in}\hrulefill\\}%
     \vspace{0.25in}\end{spacing}}{}%
     }
+\newcommand{\listtables}[1]{\def\@listtables{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  Footnotes                                      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
