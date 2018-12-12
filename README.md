@@ -1,3 +1,5 @@
+[![Travis-CI Build Status](https://travis-ci.org/AnthonyRaborn/gatordown.svg?branch=master)](https://travis-ci.org/AnthonyRaborn/gatordown.svg?branch=master)
+
 # gatordown
 
 This project is a modified version Chester Ismay's [thesisdown][4] package to 
