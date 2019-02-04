@@ -666,7 +666,7 @@
     \GradMonth\ \GradYear \\*[\BaseDiff\baselineskip]%
     \end{RS@Cent}%
     {\raggedright Chair: \Chair \\%
-    \ifcochair \raggedright Cochair: \Cochair \\%
+    %\ifcochair \raggedright Cochair: \Cochair \\%
     Major: \Department} %
     \setboolean{SetDSpace}{true}%
     \par%
@@ -766,6 +766,8 @@
     \vspace{0.25in}\end{spacing}}{}%
     }
 \newcommand{\listtables}[1]{\def\@listtables{#1}}
+\newcommand{\listfigures}[1]{\def\@listfigures{#1}}
+\newcommand{\SetBibliography}[1]{\def\@bibliography{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  Footnotes                                      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

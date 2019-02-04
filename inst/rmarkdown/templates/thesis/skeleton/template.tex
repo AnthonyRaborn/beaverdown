@@ -16,7 +16,18 @@
     \AtBeginEnvironment{lltable}{\singlespacing}
     \AtBeginEnvironment{longtable}{\singlespacing}
 
-
+  % Add float package and force figures to be placed (H)ere
+  \usepackage{float}
+  \let\origfigure\figure
+  \let\endorigfigure\endfigure
+  \renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+    } {
+    \endorigfigure
+    }
+  % Add package for landscape; should be useful for {longtable} too 
+  \usepackage{pdflscape}
+  
   % Define Packages To be used and options NOTE: If you add any packages please add them before the hyperref package%
   \include{packages}
 
@@ -60,6 +71,8 @@ $if(cochair)$
 \cochairtrue
 $endif$
 \listtables{$listtables$}
+\listfigures{$listfigures$}
+\SetBibliography{$bibliography$}
 %------------------------------------------%
 
   % user defined commands in order to generate new commands, macros, and redefine default commands %
@@ -121,6 +134,10 @@ $endif$ % % % %Required - There is no requirement to acknowledge a particular pe
 $if(listtables)$
   \listoftables %if you have any tables
 $endif$
+
+$if(listfigures)$
+  \listoffigures
+$endif$
 % % % % % % % %delete or comment the file you want to remove
 
 %------------------------------------------%
@@ -174,7 +191,7 @@ $endif$
 % The citation style differences are from the \citet{key} and \citep{key} commands
 % More options are available; see the Natbib documentation for details
 
-\bibliography{bib/citations}
+\bibliography{$bibliography$}
 \addcontentsline{toc}{chapter}{REFERENCES}
 % You can have more than one library of references - put the .bib file
 % in the bib folder and call it here
